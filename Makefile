@@ -22,8 +22,13 @@ ifeq ($(ENABLE_FPU),1)
 	CFLAGS += -mfloat-abi=hard -mfpu=fpv4-sp-d16
 endif
 
-SRCS = $(shell find $(SRC_DIR) -name '*.c')
-OBJS_F :=  $(addprefix $(BUILD_DIR), $(SRCS:.c=.o))
+# C files
+C_SRCS = $(shell find $(SRC_DIR) -name '*.c')
+# Assembly files
+A_SRCS = $(shell find $(SRC_DIR) -name '*.S')
+
+OBJS_F :=  $(addprefix $(BUILD_DIR), $(C_SRCS:.c=.o))
+OBJS_F +=  $(addprefix $(BUILD_DIR), $(A_SRCS:.S=.o))
 
 LIBRARY_FILE = "./lib$(LIBRARY_NAME).a"
 
@@ -54,6 +59,15 @@ post-build: $(LIBRARY_FILE)
 	-@echo ' '
 	-@echo ' '
 
+$(BUILD_DIR)%.o: %.S
+	mkdir -p '$(dir $@)'
+	@echo 'Building file: $@ in $(BUILD_DIR) from $<'
+	@echo 'Invoking: MCU C Compiler'
+	@echo flags=$(CFLAGS)
+	$(CC) $(GLOBAL_DEFS) $(ILIBS) $(CFLAGS) -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -o "$@" "$<"
+	@echo 'Finished building: $<'
+	@echo ' '
+
 $(BUILD_DIR)%.o: %.c
 	mkdir -p '$(dir $@)'
 	@echo 'Building file: $@ in $(BUILD_DIR) from $<'
@@ -63,6 +77,9 @@ $(BUILD_DIR)%.o: %.c
 	@echo 'Finished building: $<'
 	@echo ' '
 
+test:
+	@echo $(A_SRCS)
+	@echo $(OBJS_F)
 .PHONY: all post-build clean dependents
 .SECONDARY:
 
