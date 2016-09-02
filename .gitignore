@@ -1,4 +1,5 @@
-build
-*.a
 *.DS_Store
-Examples
+*.swp
+*.swo
+*.orig
+tags
