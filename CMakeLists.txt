@@ -46,7 +46,8 @@ CPM_InitModule(${CPM_MODULE_NAME})
 enable_language(ASM)
 
 file(GLOB_RECURSE SOURCES 
-    *.[c|S]
+    *.c
+    *.S
     )
 
 include_directories("cmsis_dsp_lib")
