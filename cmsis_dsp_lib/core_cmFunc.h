@@ -49,13 +49,13 @@
  */
 
 #if   defined ( __CC_ARM )         /*------------------ RealView Compiler -----------------*/
-  #include <cmsis_armcc.h>
+  #include "cmsis_armcc.h"
 
 #elif (__ARMCC_VERSION >= 6010050) /*------------------ ARM Compiler V6 -------------------*/
-  #include <cmsis_armcc_V6.h>
+  #include "cmsis_armcc_V6.h"
 
 #elif defined ( __GNUC__ )         /*------------------ GNU Compiler ----------------------*/
-  #include <cmsis_gcc.h>
+  #include "cmsis_gcc.h"
 
 #elif defined ( __ICCARM__ )       /*------------------ ICC Compiler ----------------------*/
   #include <cmsis_iar.h>

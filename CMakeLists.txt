@@ -43,6 +43,8 @@ CPM_InitModule(${CPM_MODULE_NAME})
 # Project sources / settings
 #------------------------------------------------------------------------------
 
+enable_language(ASM)
+
 file(GLOB_RECURSE SOURCES 
     *.[c|S]
     )
